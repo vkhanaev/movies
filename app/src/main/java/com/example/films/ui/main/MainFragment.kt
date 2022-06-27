@@ -6,6 +6,8 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
+import androidx.lifecycle.Observer
 import com.example.films.R
 
 class MainFragment : Fragment() {
@@ -23,10 +25,21 @@ class MainFragment : Fragment() {
         return inflater.inflate(R.layout.main_fragment, container, false)
     }
 
-    override fun onActivityCreated(savedInstanceState: Bundle?) {
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         viewModel = ViewModelProvider(this).get(MainViewModel::class.java)
-        // TODO: Use the ViewModel
+
+
+        viewModel.getData().observe(viewLifecycleOwner, object : Observer<Any>{
+            override fun onChanged(t: Any?) {
+                renderData(t)
+            }
+
+        })
+    }
+
+    private fun renderData(t: Any?) {
+        Toast.makeText(requireContext(), "Work $t", Toast.LENGTH_SHORT).show()
     }
 
 }
