@@ -11,6 +11,7 @@ import androidx.lifecycle.Observer
 import com.example.films.R
 import com.example.films.databinding.MainActivityBinding
 import com.example.films.databinding.MainFragmentBinding
+import com.example.films.viewmodel.AppState
 
 class MainFragment : Fragment() {
 
@@ -35,16 +36,29 @@ class MainFragment : Fragment() {
         viewModel = ViewModelProvider(this).get(MainViewModel::class.java)
 
 
-        viewModel.getData().observe(viewLifecycleOwner, object : Observer<Any>{
-            override fun onChanged(t: Any?) {
-                renderData(t)
+        viewModel.getLiveData().observe(viewLifecycleOwner, object : Observer<AppState>{
+            override fun onChanged(appState: AppState?) {
+                renderData(appState)
             }
 
         })
+
+        viewModel.getFilms()
     }
 
-    private fun renderData(t: Any?) {
-        Toast.makeText(requireContext(), "Work $t", Toast.LENGTH_SHORT).show()
+    private fun renderData(appState: AppState?) {
+        when (appState) {
+            is AppState.Success -> {
+                Toast.makeText(requireContext(), "Success $appState", Toast.LENGTH_SHORT).show()
+            }
+            is AppState.Loading -> {
+                Toast.makeText(requireContext(), "Loading $appState", Toast.LENGTH_SHORT).show()
+            }
+            is AppState.Error -> {
+                Toast.makeText(requireContext(), "Error $appState", Toast.LENGTH_SHORT).show()
+            }
+        }
+
     }
 
 }

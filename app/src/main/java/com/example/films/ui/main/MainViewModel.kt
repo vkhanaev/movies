@@ -3,20 +3,21 @@ package com.example.films.ui.main
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import com.example.films.viewmodel.AppState
 import java.lang.Thread.sleep
 
-class MainViewModel(val liveData: MutableLiveData<Any> = MutableLiveData()) : ViewModel() {
+class MainViewModel(val liveDataToObserve: MutableLiveData<AppState> = MutableLiveData()) : ViewModel() {
 
-
-    fun getData(): LiveData<Any> {
-        getDataFromSource()
-        return liveData
-    }
+    fun getLiveData() = liveDataToObserve
+    fun getFilms() = getDataFromSource()
 
     private fun getDataFromSource() {
+        // Перед отправкой запроса состояние меняется на Loading
+        liveDataToObserve.value = AppState.Loading
+
         Thread {
             sleep(1000)
-            liveData.postValue(Any())
+            liveDataToObserve.postValue(AppState.Success(Any()))
         }.start()
     }
 }
