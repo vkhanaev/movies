@@ -5,34 +5,34 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.example.movies.R
 import com.example.movies.databinding.FragmentMovieListBinding
+import com.example.movies.domain.Movie
+import com.example.movies.ui.main.details.DetailsFragment
+import com.example.movies.ui.main.details.OnItemViewClickListener
 import com.example.movies.viewmodel.AppState
-
-private const val ARG_PARAM1 = "param1"
-private const val ARG_PARAM2 = "param2"
 
 class MovieListFragment : Fragment() {
     private lateinit var viewModel: MovieListViewModel
     private var _binding: FragmentMovieListBinding? = null
     private val binding get() = _binding!!
-    private val adapter = MovieListAdapter()
-
-    /*
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-
-        arguments?.let {
-            //param1 = it.getString(ARG_PARAM1)
-            //param2 = it.getString(ARG_PARAM2)
+    private val adapter = MovieListAdapter(object : OnItemViewClickListener{
+        override fun onItemViewClick(movie: Movie) {
+            val manager = activity?.supportFragmentManager
+            if (manager!=null){
+                val bundle = Bundle()
+                bundle.putParcelable(DetailsFragment.BUNDLE_EXTRA, movie)
+                manager.beginTransaction()
+                    .hide(this@MovieListFragment)
+                    .add(R.id.container, DetailsFragment.newInstance(bundle))
+                    .addToBackStack("")
+                    .commitAllowingStateLoss()
+            }
         }
+    })
 
-
-    }
-*/
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?

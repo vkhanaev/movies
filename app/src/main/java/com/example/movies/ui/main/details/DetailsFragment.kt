@@ -9,28 +9,42 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.lifecycle.Observer
 import com.example.movies.databinding.DetailsFragmentBinding
+import com.example.movies.domain.Movie
 import com.example.movies.ui.main.movielist.MovieListViewModel
 import com.example.movies.viewmodel.AppState
 
 class DetailsFragment : Fragment() {
 
     companion object {
-        fun newInstance() = DetailsFragment()
+        const val BUNDLE_EXTRA = "movie"
+        fun newInstance(bundle: Bundle) : DetailsFragment {
+            val fragment = DetailsFragment()
+            fragment.arguments = bundle
+            return fragment
+        }
     }
 
     private lateinit var viewModel: MovieListViewModel
-    private lateinit var binding: DetailsFragmentBinding
+    private var _binding: DetailsFragmentBinding? = null
+    private val binding get() = _binding!!
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        binding = DetailsFragmentBinding.inflate(layoutInflater)
+        _binding = DetailsFragmentBinding.inflate(layoutInflater)
         return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
+
+        val movie = arguments?.getParcelable<Movie>(BUNDLE_EXTRA)
+        if (movie!=null){
+            renderMovie(movie)
+        }
+
+        /*
         viewModel = ViewModelProvider(this).get(MovieListViewModel::class.java)
 
         viewModel.getLiveData().observe(viewLifecycleOwner, object : Observer<AppState>{
@@ -41,6 +55,19 @@ class DetailsFragment : Fragment() {
         })
 
         viewModel.getMovies()
+        */
+    }
+
+    private fun renderMovie(movie: Movie) {
+        binding.movieName.text = movie.name
+        binding.movieNameEnglish.text = movie.nameEnglish
+        binding.movieGenre.text = movie.genre
+        binding.duration.text = "${movie.duration} min"
+        binding.raiting.text = movie.raiting.toString()
+        binding.budget.text = "budget: ${movie.budget} \$"
+        binding.revenue.text = "revenue: ${movie.revenue} \$"
+        binding.releaseDate.text = "releaseDate: ${movie.releaseDate}"
+        binding.movieDescription.text = movie.description
     }
 
     private fun renderData(appState: AppState?) {
@@ -65,6 +92,11 @@ class DetailsFragment : Fragment() {
             }
         }
 
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
     }
 
 }

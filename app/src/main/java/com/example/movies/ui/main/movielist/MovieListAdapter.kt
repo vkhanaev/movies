@@ -4,14 +4,16 @@ import android.view.LayoutInflater
 import android.view.TextureView
 import android.view.View
 import android.view.ViewGroup
+import android.widget.AdapterView
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.movies.R
 import com.example.movies.domain.Movie
 import com.example.movies.domain.getDefaultMovie
+import com.example.movies.ui.main.details.OnItemViewClickListener
 
-class MovieListAdapter() : RecyclerView.Adapter<MovieListAdapter.MainViewHolder>() {
+class MovieListAdapter(private val onItemViewClickListener: OnItemViewClickListener?) : RecyclerView.Adapter<MovieListAdapter.MainViewHolder>() {
 
     private var moviesData: List<Movie> = listOf()
 
@@ -42,6 +44,10 @@ class MovieListAdapter() : RecyclerView.Adapter<MovieListAdapter.MainViewHolder>
             itemView.findViewById<TextView>(R.id.movieNameRecycleItemTextView).text = movie.name
             itemView.findViewById<TextView>(R.id.year).text = movie.releaseDate
             itemView.findViewById<TextView>(R.id.raiting).text = movie.raiting.toString()
+
+            itemView.setOnClickListener {
+                onItemViewClickListener?.onItemViewClick(movie)
+            }
         }
     }
 }
