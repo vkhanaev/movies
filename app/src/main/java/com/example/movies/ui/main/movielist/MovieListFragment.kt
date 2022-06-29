@@ -1,18 +1,21 @@
 package com.example.movies.ui.main.movielist
 
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
+import androidx.recyclerview.widget.DividerItemDecoration
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.movies.R
 import com.example.movies.databinding.FragmentMovieListBinding
 import com.example.movies.domain.Movie
 import com.example.movies.ui.main.details.DetailsFragment
 import com.example.movies.ui.main.details.OnItemViewClickListener
 import com.example.movies.viewmodel.AppState
+
 
 class MovieListFragment : Fragment() {
     private lateinit var viewModel: MovieListViewModel
@@ -46,6 +49,17 @@ class MovieListFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         binding.movieListFragmentRecyclerView.adapter = adapter
+
+        // Добавим разделитель карточек
+        val itemDecoration = DividerItemDecoration(context, LinearLayoutManager.HORIZONTAL)
+        itemDecoration.setDrawable(
+            resources.getDrawable(
+                R.drawable.separator,
+                null
+            )
+        )
+
+        binding.movieListFragmentRecyclerView.addItemDecoration(itemDecoration)
 
         viewModel = ViewModelProvider(this).get(MovieListViewModel::class.java)
         viewModel.getLiveData().observe(viewLifecycleOwner, object : Observer<AppState>{
