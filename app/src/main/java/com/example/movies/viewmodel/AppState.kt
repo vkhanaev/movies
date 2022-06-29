@@ -1,4 +1,4 @@
-package com.example.films.viewmodel
+package com.example.movies.viewmodel
 
 sealed class AppState {
     data class Success(val film: Any) : AppState()

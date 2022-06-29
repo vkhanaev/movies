@@ -1,9 +1,9 @@
-package com.example.films
+package com.example.movies
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import com.example.films.databinding.MainActivityBinding
-import com.example.films.ui.main.MainFragment
+import com.example.movies.databinding.MainActivityBinding
+import com.example.movies.ui.main.MainFragment
 
 class MainActivity : AppCompatActivity() {
 
@@ -11,7 +11,6 @@ class MainActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        //setContentView(R.layout.main_activity)
         binding = MainActivityBinding.inflate(layoutInflater)
         setContentView(binding.root)
 

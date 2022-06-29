@@ -1,4 +1,4 @@
-package com.example.films.ui.main
+package com.example.movies.ui.main
 
 import androidx.lifecycle.ViewModelProvider
 import android.os.Bundle
@@ -8,10 +8,9 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.lifecycle.Observer
-import com.example.films.R
-import com.example.films.databinding.MainActivityBinding
-import com.example.films.databinding.MainFragmentBinding
-import com.example.films.viewmodel.AppState
+import com.example.movies.R
+import com.example.movies.databinding.MainFragmentBinding
+import com.example.movies.viewmodel.AppState
 
 class MainFragment : Fragment() {
 
@@ -28,13 +27,11 @@ class MainFragment : Fragment() {
     ): View {
         binding = MainFragmentBinding.inflate(layoutInflater)
         return binding.root
-        //return inflater.inflate(R.layout.main_fragment, container, false)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         viewModel = ViewModelProvider(this).get(MainViewModel::class.java)
-
 
         viewModel.getLiveData().observe(viewLifecycleOwner, object : Observer<AppState>{
             override fun onChanged(appState: AppState?) {
@@ -50,6 +47,15 @@ class MainFragment : Fragment() {
         when (appState) {
             is AppState.Success -> {
                 Toast.makeText(requireContext(), "Success $appState", Toast.LENGTH_SHORT).show()
+                binding.movieName.text = "Человек-паук: Через вселенные"
+                binding.movieNameEnglish.text = "Spider-Man: Into the Spider-Verse (2018)"
+                binding.movieType.text = "боевик, приключения, мультфильм"
+                binding.duration.text = "117 min"
+                binding.budget.text = "budget: 900 \$"
+                binding.revenue.text = "revenue: 375 \$"
+                binding.releaseDate.text = "releaseDate: 2018-12-06"
+                binding.movieDescription.text = R.string.movieDescription.toString()
+
             }
             is AppState.Loading -> {
                 Toast.makeText(requireContext(), "Loading $appState", Toast.LENGTH_SHORT).show()
