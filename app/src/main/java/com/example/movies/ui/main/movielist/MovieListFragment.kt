@@ -49,6 +49,7 @@ class MovieListFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         binding.movieListFragmentRecyclerView.adapter = adapter
+        binding.movieListFragmentRecyclerViewUpcoming.adapter = adapter
 
         // Добавим разделитель карточек
         val itemDecoration = DividerItemDecoration(context, LinearLayoutManager.HORIZONTAL)
@@ -59,7 +60,10 @@ class MovieListFragment : Fragment() {
             )
         )
 
+        binding.textViewNowPlaying.text = "Now playing"
         binding.movieListFragmentRecyclerView.addItemDecoration(itemDecoration)
+        binding.textViewUpcoming.text = "Upcoming"
+        binding.movieListFragmentRecyclerViewUpcoming.addItemDecoration(itemDecoration)
 
         viewModel = ViewModelProvider(this).get(MovieListViewModel::class.java)
         viewModel.getLiveData().observe(viewLifecycleOwner, object : Observer<AppState>{

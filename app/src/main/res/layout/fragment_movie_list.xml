@@ -6,12 +6,39 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".ui.main.movielist.MovieListFragment">
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/movieListFragmentRecyclerView"
+    <androidx.appcompat.widget.LinearLayoutCompat
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-        android:orientation="horizontal"
-        />
+        android:orientation="vertical">
 
+        <TextView
+            android:id="@+id/textViewNowPlaying"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="20sp"
+            tools:text="NowPlaying" />
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/movieListFragmentRecyclerView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+            android:orientation="horizontal"
+            />
+
+
+        <TextView
+            android:layout_marginTop="10dp"
+            android:id="@+id/textViewUpcoming"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="20sp"
+            tools:text="Upcoming" />
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/movieListFragmentRecyclerViewUpcoming"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+            android:orientation="horizontal"
+            />
+    </androidx.appcompat.widget.LinearLayoutCompat>
 </FrameLayout>
