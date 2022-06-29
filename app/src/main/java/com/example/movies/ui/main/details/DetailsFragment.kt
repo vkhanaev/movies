@@ -6,8 +6,10 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
 import android.widget.Toast
 import androidx.lifecycle.Observer
+import com.example.movies.R
 import com.example.movies.databinding.DetailsFragmentBinding
 import com.example.movies.domain.Movie
 import com.example.movies.ui.main.movielist.MovieListViewModel
@@ -61,6 +63,7 @@ class DetailsFragment : Fragment() {
     private fun renderMovie(movie: Movie) {
         binding.movieName.text = movie.name
         binding.movieNameEnglish.text = movie.nameEnglish
+        binding.imageView.setImageResource(R.drawable.ic_launcher_background)
         binding.movieGenre.text = movie.genre
         binding.duration.text = "${movie.duration} min"
         binding.raiting.text = movie.raiting.toString()
