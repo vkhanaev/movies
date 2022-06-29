@@ -1,12 +1,13 @@
-package com.example.movies.ui.main
+package com.example.movies.ui.main.movielist
 
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.example.movies.domain.getDefaultMovie
+import com.example.movies.domain.getDefaultMovieList
 import com.example.movies.viewmodel.AppState
 import java.lang.Thread.sleep
 
-class MainViewModel(val liveDataToObserve: MutableLiveData<AppState> = MutableLiveData()) : ViewModel() {
+class MovieListViewModel(val liveDataToObserve: MutableLiveData<AppState> = MutableLiveData()) : ViewModel() {
 
     fun getLiveData() = liveDataToObserve
     fun getMovies() = getDataFromSource()
@@ -17,7 +18,7 @@ class MainViewModel(val liveDataToObserve: MutableLiveData<AppState> = MutableLi
 
         Thread {
             sleep(1000)
-            liveDataToObserve.postValue(AppState.Success(getDefaultMovie()))
+            liveDataToObserve.postValue(AppState.SuccessMulti(getDefaultMovieList()))
         }.start()
     }
 }

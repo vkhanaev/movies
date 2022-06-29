@@ -1,4 +1,4 @@
-package com.example.movies.ui.main
+package com.example.movies.ui.main.details
 
 import androidx.lifecycle.ViewModelProvider
 import android.os.Bundle
@@ -8,8 +8,8 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.lifecycle.Observer
-import com.example.movies.R
-import com.example.movies.databinding.MainFragmentBinding
+import com.example.movies.databinding.DetailsFragmentBinding
+import com.example.movies.ui.main.movielist.MovieListViewModel
 import com.example.movies.viewmodel.AppState
 
 class DetailsFragment : Fragment() {
@@ -18,20 +18,20 @@ class DetailsFragment : Fragment() {
         fun newInstance() = DetailsFragment()
     }
 
-    private lateinit var viewModel: MainViewModel
-    private lateinit var binding: MainFragmentBinding
+    private lateinit var viewModel: MovieListViewModel
+    private lateinit var binding: DetailsFragmentBinding
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        binding = MainFragmentBinding.inflate(layoutInflater)
+        binding = DetailsFragmentBinding.inflate(layoutInflater)
         return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        viewModel = ViewModelProvider(this).get(MainViewModel::class.java)
+        viewModel = ViewModelProvider(this).get(MovieListViewModel::class.java)
 
         viewModel.getLiveData().observe(viewLifecycleOwner, object : Observer<AppState>{
             override fun onChanged(appState: AppState?) {
@@ -45,7 +45,7 @@ class DetailsFragment : Fragment() {
 
     private fun renderData(appState: AppState?) {
         when (appState) {
-            is AppState.Success -> {
+            is AppState.SuccessSingle -> {
                 val movie = appState.movie
                 binding.movieName.text = movie.name
                 binding.movieNameEnglish.text = movie.nameEnglish
