@@ -12,10 +12,10 @@ import com.example.movies.R
 import com.example.movies.databinding.MainFragmentBinding
 import com.example.movies.viewmodel.AppState
 
-class MainFragment : Fragment() {
+class DetailsFragment : Fragment() {
 
     companion object {
-        fun newInstance() = MainFragment()
+        fun newInstance() = DetailsFragment()
     }
 
     private lateinit var viewModel: MainViewModel
@@ -40,22 +40,22 @@ class MainFragment : Fragment() {
 
         })
 
-        viewModel.getFilms()
+        viewModel.getMovies()
     }
 
     private fun renderData(appState: AppState?) {
         when (appState) {
             is AppState.Success -> {
-                Toast.makeText(requireContext(), "Success $appState", Toast.LENGTH_SHORT).show()
-                binding.movieName.text = "Человек-паук: Через вселенные"
-                binding.movieNameEnglish.text = "Spider-Man: Into the Spider-Verse (2018)"
-                binding.movieType.text = "боевик, приключения, мультфильм"
-                binding.duration.text = "117 min"
-                binding.budget.text = "budget: 900 \$"
-                binding.revenue.text = "revenue: 375 \$"
-                binding.releaseDate.text = "releaseDate: 2018-12-06"
-                binding.movieDescription.text = R.string.movieDescription.toString()
-
+                val movie = appState.movie
+                binding.movieName.text = movie.name
+                binding.movieNameEnglish.text = movie.nameEnglish
+                binding.movieGenre.text = movie.genre
+                binding.duration.text = "${movie.duration} min"
+                binding.raiting.text = movie.raiting.toString()
+                binding.budget.text = "budget: ${movie.budget} \$"
+                binding.revenue.text = "revenue: ${movie.revenue} \$"
+                binding.releaseDate.text = "releaseDate: ${movie.releaseDate}"
+                binding.movieDescription.text = movie.description
             }
             is AppState.Loading -> {
                 Toast.makeText(requireContext(), "Loading $appState", Toast.LENGTH_SHORT).show()

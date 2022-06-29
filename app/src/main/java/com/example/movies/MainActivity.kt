@@ -3,7 +3,7 @@ package com.example.movies
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import com.example.movies.databinding.MainActivityBinding
-import com.example.movies.ui.main.MainFragment
+import com.example.movies.ui.main.DetailsFragment
 
 class MainActivity : AppCompatActivity() {
 
@@ -16,7 +16,7 @@ class MainActivity : AppCompatActivity() {
 
         if (savedInstanceState == null) {
             supportFragmentManager.beginTransaction()
-                .replace(R.id.container, MainFragment.newInstance())
+                .replace(R.id.container, DetailsFragment.newInstance())
                 .commitNow()
         }
     }

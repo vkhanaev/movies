@@ -5,7 +5,7 @@
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.main.MainFragment">
+    tools:context=".ui.main.DetailsFragment">
 
     <TextView
         android:id="@+id/movieName"
@@ -40,7 +40,7 @@
             tools:src="@drawable/ic_launcher_background"/>
 
         <TextView
-            android:id="@+id/movieType"
+            android:id="@+id/movie_genre"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textStyle="bold"
@@ -53,15 +53,23 @@
             android:layout_height="wrap_content"
             android:textStyle="bold"
             app:layout_constraintStart_toEndOf="@+id/imageView"
-            app:layout_constraintTop_toBottomOf="@+id/movieType"
+            app:layout_constraintTop_toBottomOf="@+id/movie_genre"
             tools:text="117 min" />
+        <TextView
+            android:id="@+id/raiting"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textStyle="bold"
+            app:layout_constraintStart_toEndOf="@+id/imageView"
+            app:layout_constraintTop_toBottomOf="@+id/duration"
+            tools:text="8.4 (7183)" />
         <TextView
             android:id="@+id/budget"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textStyle="bold"
             app:layout_constraintStart_toEndOf="@+id/imageView"
-            app:layout_constraintTop_toBottomOf="@+id/duration"
+            app:layout_constraintTop_toBottomOf="@+id/raiting"
             tools:text="budget: 900 $" />
         <TextView
             android:id="@+id/revenue"

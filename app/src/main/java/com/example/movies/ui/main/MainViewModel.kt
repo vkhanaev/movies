@@ -2,13 +2,14 @@ package com.example.movies.ui.main
 
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import com.example.movies.domain.getDefaultMovie
 import com.example.movies.viewmodel.AppState
 import java.lang.Thread.sleep
 
 class MainViewModel(val liveDataToObserve: MutableLiveData<AppState> = MutableLiveData()) : ViewModel() {
 
     fun getLiveData() = liveDataToObserve
-    fun getFilms() = getDataFromSource()
+    fun getMovies() = getDataFromSource()
 
     private fun getDataFromSource() {
         // Перед отправкой запроса состояние меняется на Loading
@@ -16,7 +17,7 @@ class MainViewModel(val liveDataToObserve: MutableLiveData<AppState> = MutableLi
 
         Thread {
             sleep(1000)
-            liveDataToObserve.postValue(AppState.Success(Any()))
+            liveDataToObserve.postValue(AppState.Success(getDefaultMovie()))
         }.start()
     }
 }
