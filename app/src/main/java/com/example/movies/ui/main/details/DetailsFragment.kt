@@ -1,19 +1,13 @@
 package com.example.movies.ui.main.details
 
-import androidx.lifecycle.ViewModelProvider
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ImageView
-import android.widget.Toast
-import androidx.lifecycle.Observer
 import com.example.movies.R
 import com.example.movies.databinding.DetailsFragmentBinding
 import com.example.movies.domain.Movie
-import com.example.movies.ui.main.movielist.MovieListViewModel
-import com.example.movies.viewmodel.AppState
 
 class DetailsFragment : Fragment() {
 
@@ -26,7 +20,6 @@ class DetailsFragment : Fragment() {
         }
     }
 
-    private lateinit var viewModel: MovieListViewModel
     private var _binding: DetailsFragmentBinding? = null
     private val binding get() = _binding!!
 
@@ -46,18 +39,6 @@ class DetailsFragment : Fragment() {
             renderMovie(movie)
         }
 
-        /*
-        viewModel = ViewModelProvider(this).get(MovieListViewModel::class.java)
-
-        viewModel.getLiveData().observe(viewLifecycleOwner, object : Observer<AppState>{
-            override fun onChanged(appState: AppState?) {
-                renderData(appState)
-            }
-
-        })
-
-        viewModel.getMovies()
-        */
     }
 
     private fun renderMovie(movie: Movie) {
@@ -72,7 +53,7 @@ class DetailsFragment : Fragment() {
         binding.releaseDate.text = "releaseDate: ${movie.releaseDate}"
         binding.movieDescription.text = movie.description
     }
-
+/*
     private fun renderData(appState: AppState?) {
         when (appState) {
             is AppState.SuccessSingle -> {
@@ -96,7 +77,7 @@ class DetailsFragment : Fragment() {
         }
 
     }
-
+*/
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null

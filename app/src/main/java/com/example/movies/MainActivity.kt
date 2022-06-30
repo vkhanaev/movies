@@ -3,7 +3,6 @@ package com.example.movies
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import com.example.movies.databinding.MainActivityBinding
-import com.example.movies.ui.main.details.DetailsFragment
 import com.example.movies.ui.main.movielist.MovieListFragment
 
 class MainActivity : AppCompatActivity() {

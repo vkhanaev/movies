@@ -1,23 +1,20 @@
 package com.example.movies.ui.main.movielist
 
 import android.view.LayoutInflater
-import android.view.TextureView
 import android.view.View
 import android.view.ViewGroup
-import android.widget.AdapterView
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.movies.R
 import com.example.movies.domain.Movie
-import com.example.movies.domain.getDefaultMovie
 import com.example.movies.ui.main.details.OnItemViewClickListener
 
 class MovieListAdapter(private val onItemViewClickListener: OnItemViewClickListener?) : RecyclerView.Adapter<MovieListAdapter.MainViewHolder>() {
 
     private var moviesData: List<Movie> = listOf()
 
-    fun setMovie(data: List<Movie>) {
+    fun setMovieList(data: List<Movie>) {
         moviesData = data
         notifyDataSetChanged()
     }

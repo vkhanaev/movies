@@ -4,16 +4,20 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.example.movies.MainActivity
 import com.example.movies.R
 import com.example.movies.databinding.FragmentMovieListBinding
 import com.example.movies.domain.Movie
+import com.example.movies.model.MovieSection
 import com.example.movies.ui.main.details.DetailsFragment
 import com.example.movies.ui.main.details.OnItemViewClickListener
+import com.example.movies.ui.main.details.OnItemViewClickListenerImpl
 import com.example.movies.viewmodel.AppState
 
 
@@ -21,25 +25,13 @@ class MovieListFragment : Fragment() {
     private lateinit var viewModel: MovieListViewModel
     private var _binding: FragmentMovieListBinding? = null
     private val binding get() = _binding!!
-    private val adapter = MovieListAdapter(object : OnItemViewClickListener{
-        override fun onItemViewClick(movie: Movie) {
-            val manager = activity?.supportFragmentManager
-            if (manager!=null){
-                val bundle = Bundle()
-                bundle.putParcelable(DetailsFragment.BUNDLE_EXTRA, movie)
-                manager.beginTransaction()
-                    .hide(this@MovieListFragment)
-                    .add(R.id.container, DetailsFragment.newInstance(bundle))
-                    .addToBackStack("")
-                    .commitAllowingStateLoss()
-            }
-        }
-    })
+    private lateinit var adapterNowPlaying: MovieListAdapter
+    private lateinit var adapterUpcoming: MovieListAdapter
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         _binding = FragmentMovieListBinding.inflate(inflater)
         return binding.root
         //return inflater.inflate(R.layout.fragment_movie_list, container, false)
@@ -48,21 +40,18 @@ class MovieListFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        binding.movieListFragmentRecyclerView.adapter = adapter
-        binding.movieListFragmentRecyclerViewUpcoming.adapter = adapter
+        adapterNowPlaying = MovieListAdapter(OnItemViewClickListenerImpl(activity?.supportFragmentManager, this ))
+        adapterUpcoming = MovieListAdapter(OnItemViewClickListenerImpl(activity?.supportFragmentManager, this ))
+        binding.movieListFragmentRecyclerView.adapter = adapterNowPlaying
+        binding.movieListFragmentRecyclerViewUpcoming.adapter = adapterUpcoming
 
         // Добавим разделитель карточек
         val itemDecoration = DividerItemDecoration(context, LinearLayoutManager.HORIZONTAL)
-        itemDecoration.setDrawable(
-            resources.getDrawable(
-                R.drawable.separator,
-                null
-            )
-        )
+        itemDecoration.setDrawable(resources.getDrawable(R.drawable.separator,null))
 
-        binding.textViewNowPlaying.text = "Now playing"
+        binding.textViewNowPlaying.text = getString(R.string.now_playing)
         binding.movieListFragmentRecyclerView.addItemDecoration(itemDecoration)
-        binding.textViewUpcoming.text = "Upcoming"
+        binding.textViewUpcoming.text = getString(R.string.upcoming)
         binding.movieListFragmentRecyclerViewUpcoming.addItemDecoration(itemDecoration)
 
         viewModel = ViewModelProvider(this).get(MovieListViewModel::class.java)
@@ -71,29 +60,24 @@ class MovieListFragment : Fragment() {
                 renderData(appState)
             }
         })
-
         viewModel.getMovies()
 
     }
 
     fun renderData(appState: AppState) {
         when(appState) {
-            is AppState.SuccessMulti -> {
-                adapter.setMovie(appState.moviesData)
-                //Toast.makeText(context, "toast ${appState.moviesData}",Toast.LENGTH_LONG).show()
+            is AppState.SuccessMultiNowPlaying -> {
+                Toast.makeText(context, "SuccessMultiNowPlaying", Toast.LENGTH_LONG).show()
+                adapterNowPlaying.setMovieList(appState.moviesData)
+            }
+            is AppState.SuccessMultiUpcoming -> {
+                Toast.makeText(context, "SuccessMultiUpcoming", Toast.LENGTH_LONG).show()
+                adapterUpcoming.setMovieList(appState.moviesData)
             }
         }
 
     }
     companion object {
         fun newInstance() = MovieListFragment()
-            /*.apply {
-                arguments = Bundle().apply {
-                    //putString(ARG_PARAM1, param1)
-                    //putString(ARG_PARAM2, param2)
-                }
-            }
-
-             */
     }
 }
