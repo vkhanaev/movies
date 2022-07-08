@@ -38,46 +38,23 @@ class DetailsFragment : Fragment() {
         if (movie!=null){
             renderMovie(movie)
         }
-
     }
 
     private fun renderMovie(movie: Movie) {
-        binding.movieName.text = movie.name
-        binding.movieNameEnglish.text = movie.nameEnglish
-        binding.imageView.setImageResource(R.drawable.ic_launcher_background)
-        binding.movieGenre.text = movie.genre
-        binding.duration.text = "${movie.duration} min"
-        binding.raiting.text = movie.raiting.toString()
-        binding.budget.text = "budget: ${movie.budget} \$"
-        binding.revenue.text = "revenue: ${movie.revenue} \$"
-        binding.releaseDate.text = "releaseDate: ${movie.releaseDate}"
-        binding.movieDescription.text = movie.description
-    }
-/*
-    private fun renderData(appState: AppState?) {
-        when (appState) {
-            is AppState.SuccessSingle -> {
-                val movie = appState.movie
-                binding.movieName.text = movie.name
-                binding.movieNameEnglish.text = movie.nameEnglish
-                binding.movieGenre.text = movie.genre
-                binding.duration.text = "${movie.duration} min"
-                binding.raiting.text = movie.raiting.toString()
-                binding.budget.text = "budget: ${movie.budget} \$"
-                binding.revenue.text = "revenue: ${movie.revenue} \$"
-                binding.releaseDate.text = "releaseDate: ${movie.releaseDate}"
-                binding.movieDescription.text = movie.description
-            }
-            is AppState.Loading -> {
-                Toast.makeText(requireContext(), "Loading $appState", Toast.LENGTH_SHORT).show()
-            }
-            is AppState.Error -> {
-                Toast.makeText(requireContext(), "Error $appState", Toast.LENGTH_SHORT).show()
-            }
+        with(binding) {
+            movieName.text = movie.name
+            movieNameEnglish.text = movie.nameEnglish
+            imageView.setImageResource(R.drawable.ic_launcher_background)
+            movieGenre.text = movie.genre
+            duration.text = "${movie.duration} min"
+            raiting.text = movie.raiting.toString()
+            budget.text = "budget: ${movie.budget} \$"
+            revenue.text = "revenue: ${movie.revenue} \$"
+            releaseDate.text = "releaseDate: ${movie.releaseDate}"
+            movieDescription.text = movie.description
         }
-
     }
-*/
+
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null

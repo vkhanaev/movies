@@ -12,8 +12,11 @@ import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.movies.R
 import com.example.movies.databinding.FragmentMovieListBinding
+import com.example.movies.domain.Movie
+import com.example.movies.model.MovieSection
 import com.example.movies.ui.main.details.OnItemViewClickListenerImpl
 import com.example.movies.viewmodel.AppState
+import java.lang.Thread.sleep
 
 class MovieListFragment : Fragment() {
     private lateinit var viewModel: MovieListViewModel
@@ -21,6 +24,7 @@ class MovieListFragment : Fragment() {
     private val binding get() = _binding!!
     private lateinit var adapterNowPlaying: MovieListAdapter
     private lateinit var adapterUpcoming: MovieListAdapter
+    private lateinit var adapter: MovieListAdapter
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -28,25 +32,28 @@ class MovieListFragment : Fragment() {
     ): View {
         _binding = FragmentMovieListBinding.inflate(inflater)
         return binding.root
-        //return inflater.inflate(R.layout.fragment_movie_list, container, false)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        adapterNowPlaying = MovieListAdapter(OnItemViewClickListenerImpl(activity?.supportFragmentManager, this ))
-        adapterUpcoming = MovieListAdapter(OnItemViewClickListenerImpl(activity?.supportFragmentManager, this ))
-        binding.movieListFragmentRecyclerView.adapter = adapterNowPlaying
-        binding.movieListFragmentRecyclerViewUpcoming.adapter = adapterUpcoming
-
         // Добавим разделитель карточек
         val itemDecoration = DividerItemDecoration(context, LinearLayoutManager.HORIZONTAL)
         itemDecoration.setDrawable(resources.getDrawable(R.drawable.separator,null))
 
-        binding.textViewNowPlaying.text = getString(R.string.now_playing)
-        binding.movieListFragmentRecyclerView.addItemDecoration(itemDecoration)
-        binding.textViewUpcoming.text = getString(R.string.upcoming)
-        binding.movieListFragmentRecyclerViewUpcoming.addItemDecoration(itemDecoration)
+        adapterNowPlaying = MovieListAdapter(OnItemViewClickListenerImpl(activity?.supportFragmentManager, this ))
+        with(binding) {
+            movieListFragmentRecyclerView.adapter = adapterNowPlaying
+            textViewNowPlaying.text = getString(R.string.now_playing)
+            movieListFragmentRecyclerView.addItemDecoration(itemDecoration)
+        }
+
+        adapterUpcoming = MovieListAdapter(OnItemViewClickListenerImpl(activity?.supportFragmentManager, this ))
+        with(binding) {
+            movieListFragmentRecyclerViewUpcoming.adapter = adapterUpcoming
+            textViewUpcoming.text = getString(R.string.upcoming)
+            movieListFragmentRecyclerViewUpcoming.addItemDecoration(itemDecoration)
+        }
 
         viewModel = ViewModelProvider(this).get(MovieListViewModel::class.java)
         viewModel.getLiveData().observe(viewLifecycleOwner, object : Observer<AppState>{
@@ -54,20 +61,24 @@ class MovieListFragment : Fragment() {
                 renderData(appState)
             }
         })
-        viewModel.getMovies()
-
+        viewModel.getMovies(MovieSection.NowPlaying)
+        sleep(1000)
+        viewModel.getMovies(MovieSection.Upcoming)
     }
 
     fun renderData(appState: AppState) {
         when(appState) {
-            is AppState.SuccessMultiNowPlaying -> {
-                Toast.makeText(context, "SuccessMultiNowPlaying", Toast.LENGTH_LONG).show()
-                adapterNowPlaying.setMovieList(appState.moviesData)
+            is AppState.SuccessMulti -> {
+                when(appState.movieSection) {
+                    is MovieSection.NowPlaying -> {
+                        adapterNowPlaying.setMovieList(appState.moviesData)
+                    }
+                    is MovieSection.Upcoming -> {
+                        adapterUpcoming.setMovieList(appState.moviesData)
+                    }
+                }
             }
-            is AppState.SuccessMultiUpcoming -> {
-                Toast.makeText(context, "SuccessMultiUpcoming", Toast.LENGTH_LONG).show()
-                adapterUpcoming.setMovieList(appState.moviesData)
-            }
+
             is AppState.Loading -> {
                 Toast.makeText(requireContext(), "Loading $appState", Toast.LENGTH_SHORT).show()
             }

@@ -19,5 +19,4 @@ class OnItemViewClickListenerImpl(private val fragmentManager: FragmentManager?,
                 .commitAllowingStateLoss()
         }
     }
-
 }

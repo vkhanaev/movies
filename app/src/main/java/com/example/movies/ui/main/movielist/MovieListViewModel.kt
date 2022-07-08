@@ -2,6 +2,7 @@ package com.example.movies.ui.main.movielist
 
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import com.example.movies.domain.Movie
 import com.example.movies.model.*
 import com.example.movies.viewmodel.AppState
 import java.lang.Thread.sleep
@@ -16,19 +17,15 @@ class MovieListViewModel(val liveDataToObserve: MutableLiveData<AppState> = Muta
         return liveDataToObserve
     }
 
-    fun getMovies() = getDataFromSource()
+    fun getMovies(movieSection: MovieSection) = getDataFromSource(movieSection)
 
-    private fun getDataFromSource() {
+    private fun getDataFromSource(movieSection: MovieSection) {
         // Перед отправкой запроса состояние меняется на Loading
         liveDataToObserve.value = AppState.Loading
 
-        // TODO Нужно доработать, не все догружается, если нет sleep()
         Thread {
-            sleep(2000L)
-            liveDataToObserve.postValue(AppState.SuccessMultiNowPlaying(repositoryMulti.getListMovies(MovieSection.NowPlaying)))
-
-            sleep(2000L)
-            liveDataToObserve.postValue(AppState.SuccessMultiUpcoming(repositoryMulti.getListMovies(MovieSection.Upcoming)))
+            sleep(1000L)
+            liveDataToObserve.postValue(AppState.SuccessMulti(repositoryMulti.getListMovies(movieSection), movieSection))
         }.start()
     }
 
