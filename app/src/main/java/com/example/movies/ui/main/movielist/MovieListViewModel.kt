@@ -20,11 +20,10 @@ class MovieListViewModel(val liveDataToObserve: MutableLiveData<AppState> = Muta
     fun getMovies(movieSection: MovieSection) = getDataFromSource(movieSection)
 
     private fun getDataFromSource(movieSection: MovieSection) {
-        // Перед отправкой запроса состояние меняется на Loading
         liveDataToObserve.value = AppState.Loading
 
         Thread {
-            sleep(1000L)
+            //sleep(1000L)
             liveDataToObserve.postValue(AppState.SuccessMulti(repositoryMulti.getListMovies(movieSection), movieSection))
         }.start()
     }

@@ -5,15 +5,15 @@ import kotlinx.android.parcel.Parcelize
 
 @Parcelize
 data class Movie(
-    val name: String,
-    val nameEnglish: String,
-    val genre: String,  // жанр фильма
-    val duration: Int,
-    val raiting: Double,
-    val budget: Long,
-    val revenue: Long,
-    val releaseDate: String,
-    val description: String
+    val name: String = "",
+    val nameEnglish: String = "",
+    val genre: String = "",  // жанр фильма
+    val duration: Int = 0,
+    val raiting: Double = 0.0,
+    val budget: Long = 0,
+    val revenue: Long = 0,
+    val releaseDate: String = "",
+    val description: String = ""
 ) : Parcelable
 
 fun getDefaultMovie() = Movie("Человек-паук: Через вселенные",
